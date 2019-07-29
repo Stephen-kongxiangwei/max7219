@@ -2,14 +2,7 @@
 
 This extension works with single or multiple MAX7219 8x8 LED matrix display modules.
 
-To import this extension, go to Advanced -> +extension and enter "MAX7219" in the search box, or copy/paste [https://github.com/alankrantas/pxt-MAX7219_8x8](https://github.com/alankrantas/pxt-MAX7219_8x8). Press enter and click the extension.
-
-![led-matrix-display-8x8-dots-rood-max7219-bovenkant](https://user-images.githubusercontent.com/44191076/50701188-d0ba2400-1087-11e9-9588-d57f678010d7.jpg)
-
-![img_0005](https://user-images.githubusercontent.com/44191076/50698899-3fe04a00-1081-11e9-95c8-de5ba55b44d9.JPG)
-
-![1](https://user-images.githubusercontent.com/44191076/50700935-eda22780-1086-11e9-8d7a-0fd285bd5a2d.jpg)
-
+To import this extension, go to Advanced -> +extension and enter "MAX7219" in the search box, or copy/paste [https://github.com/Stephen-kongxiangwei/max7219]. Press enter and click the extension.
 ## Modules Wiring
 
 For the module at the head of the chain, connect it to micro:bit as follows:
