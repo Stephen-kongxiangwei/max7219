@@ -142,18 +142,17 @@ namespace max7219_matrix {
             clearAll()
         }
         let printPosition: number = Math.constrain(offset, -8, _displayArray.length - 9) + 8
-        if (customCharArray < 255) {
             // print column data to display array
             _displayArray[printPosition] = customCharArray
             // write every 8 columns of display array (visible area) to each MAX7219s
             let matrixCountdown = _matrixNum - 1
             let actualMatrixIndex = 0
-            for (let i = 8; i < _displayArray.length - 8; i += 8) {
+           
                 if (matrixCountdown < 0) break
                 if (!_reversed) actualMatrixIndex = matrixCountdown
                 else actualMatrixIndex = _matrixNum - 1 - matrixCountdown
                 if (_rotation == rotation_direction.none) {
-                    for (let j = i; j < i + 8; j++)
+                    for (let j = 8; j < 16; j++)
                         _registerForOne(_DIGIT[j - i], _displayArray[j], actualMatrixIndex)
                 } else { // rotate matrix and reverse order if needed
                     let tmpColumns = [0, 0, 0, 0, 0, 0, 0, 0]
@@ -161,9 +160,8 @@ namespace max7219_matrix {
                     for (let j = i; j < i + 8; j++) tmpColumns[l++] = _displayArray[j]
                     displayLEDsForOne(_getMatrixFromColumns(tmpColumns), actualMatrixIndex)
                 }
-                matrixCountdown--
-            }
-        }
+                
+            
     }
 
     // ASCII fonts borrowed from https://github.com/lyle/matrix-led-font/blob/master/src/index.js
