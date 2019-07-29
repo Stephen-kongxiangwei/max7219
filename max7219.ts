@@ -134,25 +134,27 @@ namespace max7219_matrix {
     /**
     * Print a custom character from a number array on the chain of MAX7219 matrixs at a specific spot. Each number in the array is 0-255, the decimal version of column's byte number. Offset value -8 ~ last column of matrixs. You can choose to clear the screen or not (if not it can be used to print multiple string on the MAX7219 chain).
     */
-    //% block="Display Number $customCharArray offset $offset|clear screen first $clear" offset.min=-8 clear.defl=true group="2. Display Number on matrixs" blockExternalInputs=false
-    export function displayNumber(customCharArray: number, offset: number, clear: boolean) {
+ //% block="Display custom character from|number array $customCharArray|offset $offset|clear screen first $clear" offset.min=-8 clear.defl=true group="2. Display text on matrixs" blockExternalInputs=true advanced=true
+    export function displayCustomCharacter(customCharArray: number[], offset: number, clear: boolean) {
         // clear screen and array if needed
         if (clear) {
             for (let i = 0; i < _displayArray.length; i++) _displayArray[i] = 0
             clearAll()
         }
         let printPosition: number = Math.constrain(offset, -8, _displayArray.length - 9) + 8
+        if (customCharArray != null) {
             // print column data to display array
-            _displayArray[printPosition] = customCharArray
+            for (let i = 0; i < customCharArray.length; i++)
+                _displayArray[printPosition + i] = customCharArray[i]
             // write every 8 columns of display array (visible area) to each MAX7219s
             let matrixCountdown = _matrixNum - 1
             let actualMatrixIndex = 0
-           
+            for (let i = 8; i < _displayArray.length - 8; i += 8) {
                 if (matrixCountdown < 0) break
                 if (!_reversed) actualMatrixIndex = matrixCountdown
                 else actualMatrixIndex = _matrixNum - 1 - matrixCountdown
                 if (_rotation == rotation_direction.none) {
-                    for (let j = 8; j < 16; j++)
+                    for (let j = i; j < i + 8; j++)
                         _registerForOne(_DIGIT[j - i], _displayArray[j], actualMatrixIndex)
                 } else { // rotate matrix and reverse order if needed
                     let tmpColumns = [0, 0, 0, 0, 0, 0, 0, 0]
@@ -160,8 +162,9 @@ namespace max7219_matrix {
                     for (let j = i; j < i + 8; j++) tmpColumns[l++] = _displayArray[j]
                     displayLEDsForOne(_getMatrixFromColumns(tmpColumns), actualMatrixIndex)
                 }
-                
-            
+                matrixCountdown--
+            }
+        }
     }
 
     // ASCII fonts borrowed from https://github.com/lyle/matrix-led-font/blob/master/src/index.js
